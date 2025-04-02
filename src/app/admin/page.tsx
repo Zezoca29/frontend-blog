@@ -159,7 +159,7 @@ export default function AdminPage() {
     if (!window.confirm('Tem certeza que deseja excluir este post?')) return;
 
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/posts/${id}/`, { method: 'DELETE' });
+      const response = await fetch(`${API_BASE_URL}/api/posts/${id}/`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Erro ao excluir post.');
       setPosts(posts.filter(post => post.id !== id));
     } catch (err) {
