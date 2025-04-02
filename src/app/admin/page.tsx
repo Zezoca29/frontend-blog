@@ -25,7 +25,7 @@ export default function AdminPage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const [setEditorMounted] = useState(false);
+  const [editorMounted, setEditorMounted] = useState(false);
   const headingLevels: Array<1 | 2 | 3 | 4> = [1, 2, 3, 4];
   const [selectedHeadingLevel, setSelectedHeadingLevel] = useState<1 | 2 | 3 | 4>(1);
   const [showHeadingOptions, setShowHeadingOptions] = useState(false);
@@ -170,7 +170,7 @@ export default function AdminPage() {
   return (
     <div className="min-h-screen flex flex-col items-center bg-gray-100 p-6">
       <h1 className="text-3xl font-bold text-blue-600 mb-6">Painel de Administração</h1>
-
+      {editorMounted ? <p>Editor montado!</p> : <p>Editor ainda não montado.</p>}
       {/* Renderiza o editor apenas se estiver editando */}
       {isEditing && editor && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 p-4">
