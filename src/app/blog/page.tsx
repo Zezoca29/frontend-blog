@@ -21,11 +21,6 @@ export default function BlogPage() {
 
   const router = useRouter();
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    router.push('/login');
-  };
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {

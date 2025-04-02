@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
-import { FiBold, FiItalic, FiType, FiImage, FiCopy, FiChevronDown, FiEdit, FiTrash } from "react-icons/fi";
+import { FiBold, FiItalic, FiType, FiCopy, FiChevronDown, FiEdit, FiTrash } from "react-icons/fi";
 import { useRouter } from 'next/navigation';
 
 const API_POSTS_LIST_URL = process.env.NEXT_PUBLIC_API_POSTS_LIST_URL ?? (() => { throw new Error("NEXT_PUBLIC_API_POSTS_LIST_URL não está definida."); })();
@@ -24,9 +24,8 @@ export default function AdminPage() {
   const [editingPostId, setEditingPostId] = useState<number | null>(null);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
   const router = useRouter();
-  const [editorMounted, setEditorMounted] = useState(false);
+  const [setEditorMounted] = useState(false);
   const headingLevels: Array<1 | 2 | 3 | 4> = [1, 2, 3, 4];
   const [selectedHeadingLevel, setSelectedHeadingLevel] = useState<1 | 2 | 3 | 4>(1);
   const [showHeadingOptions, setShowHeadingOptions] = useState(false);
@@ -60,12 +59,17 @@ export default function AdminPage() {
         });
         if (!response.ok) throw new Error('Erro ao carregar posts.');
         setPosts(await response.json());
-      } catch (err: any) {
-        console.error(err.message);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          console.error(err.message); // Agora você pode acessar `err.message` com segurança
+        } else {
+          console.error('Erro desconhecido');
+        }
       }
     };
     fetchPosts();
   }, []);
+  
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
