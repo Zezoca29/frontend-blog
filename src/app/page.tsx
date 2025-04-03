@@ -1,13 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Instagram } from "lucide-react";
+import { Instagram, Menu } from "lucide-react";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -17,22 +19,40 @@ export default function Home() {
           {/* Logo */}
           <div className="flex items-center space-x-3 cursor-pointer" onClick={() => router.push("/")}>
             <Image src="/blog/Logo.png" alt="Logo" width={100} height={80} priority />
-            <h1 className="text-2xl font-bold">Blog Psicopedagógico</h1>
+            <h1 className="text-2xl font-bold sm:text-xl xs:text-lg">Blog Psicopedagógico</h1>
           </div>
-          <nav>
+
+          {/* Menu para telas grandes */}
+          <nav className="hidden sm:block">
             <ul className="flex space-x-6">
               <li className="cursor-pointer hover:underline" onClick={() => router.push("/")}>Home</li>
               <li className="cursor-pointer hover:underline" onClick={() => router.push("/blog")}>Blog</li>
               <li className="cursor-pointer hover:underline" onClick={() => router.push("/login")}>Login</li>
             </ul>
           </nav>
+
+          {/* Ícone de menu hambúrguer para telas pequenas */}
+          <button className="sm:hidden" onClick={() => setMenuOpen(!menuOpen)}>
+            <Menu size={28} />
+          </button>
         </div>
+
+        {/* Menu Mobile */}
+        {menuOpen && (
+          <div className="sm:hidden bg-blue-700 text-white text-center py-3">
+            <ul className="space-y-2">
+              <li className="cursor-pointer hover:underline" onClick={() => router.push("/")}>Home</li>
+              <li className="cursor-pointer hover:underline" onClick={() => router.push("/blog")}>Blog</li>
+              <li className="cursor-pointer hover:underline" onClick={() => router.push("/login")}>Login</li>
+            </ul>
+          </div>
+        )}
       </header>
 
       {/* Seção de Destaque */}
       <section className="text-center py-16 px-4 bg-white">
         <h2 className="text-3xl font-bold text-blue-700 mb-4">
-        Apoio no desenvolvimento infantil e inclusão
+          Apoio no desenvolvimento infantil e inclusão
         </h2>
         <p className="text-gray-600 max-w-2xl mx-auto">
           No <strong>Blog Psicopedagógico</strong>, oferecemos recursos valiosos para pais, educadores e terapeutas que desejam melhorar o desenvolvimento infantil. Aqui, você encontrará <strong>atividades estruturadas</strong>, <strong>materiais gratuitos</strong> e <strong>vídeos explicativos</strong> para ajudar crianças a desenvolverem suas habilidades cognitivas e sociais de forma envolvente e eficiente. Junte-se a nós nessa jornada de aprendizado e inclusão!
@@ -44,19 +64,19 @@ export default function Home() {
         <h3 className="text-2xl font-semibold text-gray-800 mb-6">📹 Vídeos Explicativos</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="bg-white shadow-md rounded-lg p-4">
-            <h4 className="font-semibold text-lg mb-2">Como usar atividades estruturadas?</h4>
+            <h4 className="font-semibold text-lg text-black mb-2 sm:text-base xs:text-sm">Como usar atividades estruturadas?</h4>
             <iframe
               className="w-full h-40 rounded-lg"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/GzMKcTiPvXM"
               title="Vídeo Explicativo"
               allowFullScreen
             ></iframe>
           </div>
           <div className="bg-white shadow-md rounded-lg p-4">
-            <h4 className="font-semibold text-lg mb-2">Dicas para estimular o aprendizado</h4>
+            <h4 className="font-semibold text-lg text-black mb-2 sm:text-base xs:text-sm">Dicas para estimular o aprendizado</h4>
             <iframe
               className="w-full h-40 rounded-lg"
-              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              src="https://www.youtube.com/embed/jloVxknGkLI"
               title="Vídeo Explicativo"
               allowFullScreen
             ></iframe>
@@ -70,10 +90,15 @@ export default function Home() {
         <p className="text-gray-600 max-w-2xl mx-auto mb-4">
           Baixe gratuitamente materiais de apoio para ajudar no desenvolvimento das crianças.
         </p>
-        <button className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow hover:bg-blue-700 transition">
+        <a
+          href="/materiais/Psicopedagogia Ajudando Crianças a Aprender.pdf"
+          download="Psicopedagogia Ajudando Crianças a Aprender.pdf"
+          className="bg-blue-600 text-white py-2 px-6 rounded-lg shadow hover:bg-blue-700 transition inline-block"
+        >
           Baixar Agora
-        </button>
+        </a>
       </section>
+
 
       {/* Botões Fixos de Contato */}
       <div className="fixed bottom-4 right-4 flex flex-col space-y-3">
