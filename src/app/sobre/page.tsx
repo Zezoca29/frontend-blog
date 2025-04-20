@@ -609,8 +609,8 @@ const SobreMim = () => {
               <span className="logo-text">Blog Psicopedagógico</span>
             </div>
               <Link href="/" className="nav-link">Home</Link>
-              <a href="/blog" className="nav-link">Blog</a>
-              <a href="/contato" className="nav-link">Contato</a>
+              <Link href="/blog" className="nav-link">Blog</Link>
+              <Link href="/contato" className="nav-link">Contato</Link>
             <button className="hamburger" onClick={toggleMenu}>
               <span></span>
               <span></span>
@@ -619,8 +619,8 @@ const SobreMim = () => {
             <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
               <div className="mobile-nav-links">
                 <Link href="/" className="mobile-nav-link">Home</Link>
-                <a href="/blog" className="mobile-nav-link">Blog</a>
-                <a href="/contato" className="mobile-nav-link">Contato</a>
+                <Link href="/blog" className="mobile-nav-link">Blog</Link>
+                <Link href="/contato" className="mobile-nav-link">Contato</Link>
               </div>
             </div>
           </div>

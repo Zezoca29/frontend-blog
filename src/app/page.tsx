@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Instagram, Link, Linkedin, MessageCircle } from 'lucide-react';
+import { Instagram, Linkedin, MessageCircle } from 'lucide-react';
+import Link from 'next/link';
 
 const Page = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -373,10 +374,10 @@ const Page = () => {
               <span className="logo-text">Blog Psicopedagógico</span>
             </div>
             <nav className="nav-links">
-              <a href="/" className="nav-link">Home</a>
-              <a href="/blog" className="nav-link">Blog</a>
-              <a href="/sobre" className="nav-link">Sobre Mim</a>
-              <a href="/login" className="nav-link">Login</a>
+            <Link href="/" className="nav-link">Home</Link>
+  <Link href="/blog" className="nav-link">Blog</Link>
+  <Link href="/sobre" className="nav-link">Sobre Mim</Link>
+  <Link href="/login" className="nav-link">Login</Link>
             </nav>
             <button className="hamburger" onClick={toggleMenu}>
               <span></span>
@@ -385,10 +386,10 @@ const Page = () => {
             </button>
             <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
               <div className="mobile-nav-links">
-                <Link href="/" className="mobile-nav-link">Home</Link>
-                <a href="/blog" className="mobile-nav-link">Blog</a>
-                <a href="/sobre" className="mobile-nav-link">Sobre Mim</a>
-                <a href="/login" className="mobile-nav-link">Login</a>
+              <Link href="/" className="mobile-nav-link">Home</Link>
+  <Link href="/blog" className="mobile-nav-link">Blog</Link>
+  <Link href="/sobre" className="mobile-nav-link">Sobre Mim</Link>
+  <Link href="/login" className="mobile-nav-link">Login</Link>
               </div>
             </div>
           </div>

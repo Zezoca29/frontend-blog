@@ -166,18 +166,6 @@ const handlePostClick = (postId: number) => {
       .replace(/`{1,3}(.*?)`{1,3}/g, '$1');
   };
 
-  const getImageFromContent = (content: string): string | null => {
-    const imageRegex = /!\[.*?\]\((.*?)\)/;
-    const match = content.match(imageRegex);
-    
-    if (match && match[1]) {
-      const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-      return match[1].startsWith('http') ? match[1] : `${backendUrl}${match[1]}`;
-    }
-    
-    return null;
-  };
-
   const extractTags = (): string[] => {
       // Esta é uma função de exemplo para extrair tags de um conteúdo
       // Na implementação real, você poderia ter as tags como parte do modelo de dados
@@ -194,30 +182,6 @@ const handlePostClick = (postId: number) => {
     }
     
     return randomTags;
-  };
-
-  const renderContent = (text: string) => {
-    const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-    if (!backendUrl) {
-      throw new Error('API base URL não está definida no ambiente.');
-    }
-  
-    return text
-      .replace(/!\[.*?\]\((.*?)\)/g, (match, p1) => {
-        const imageUrl = p1.startsWith('http') ? p1 : `${backendUrl}${p1}`;
-        return `<img src="${imageUrl}" alt="Imagem do post" class="w-full h-auto rounded-lg my-4" />`;
-      })
-      .replace(/^# (.*$)/gm, '<h1 class="text-3xl font-bold mt-4 mb-2">$1</h1>')
-      .replace(/^## (.*$)/gm, '<h2 class="text-2xl font-semibold mt-4 mb-2">$1</h2>')
-      .replace(/^### (.*$)/gm, '<h3 class="text-xl font-medium mt-3 mb-2">$1</h3>')
-      .replace(/^#### (.*$)/gm, '<h4 class="text-lg font-normal mt-2 mb-2">$1</h4>')
-      .replace(/<h1>(.*?)<\/h1>/g, '<h1 class="text-3xl font-bold mt-4 mb-2">$1</h1>')
-      .replace(/<h2>(.*?)<\/h2>/g, '<h2 class="text-2xl font-semibold mt-4 mb-2">$1</h2>')
-      .replace(/<h3>(.*?)<\/h3>/g, '<h3 class="text-xl font-medium mt-3 mb-2">$1</h3>')
-      .replace(/<h4>(.*?)<\/h4>/g, '<h4 class="text-lg font-normal mt-2 mb-2">$1</h4>')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/\n/g, '<br />');
   };
 
   const toggleLike = (postId: number) => {
@@ -432,16 +396,17 @@ const handlePostClick = (postId: number) => {
 
                             {/* Posts Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
                             {paginatedPosts.length > 0 ? (
                               paginatedPosts.map((post) => (
                               <div 
-                                key={post.id} 
-                                className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
-                                onClick={() => handlePostClick(post.id)}
+                              key={post.id} 
+                              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
+                              onClick={() => handlePostClick(post.id)}
                               >
                                 <div className="relative h-48">
                                 <Image 
-                                  src="/api/placeholder/600/400" 
+                                  src="/blog/imagem 2.jpg" 
                                   alt={post.title} 
                                   fill 
                                   className="object-cover" 
@@ -786,7 +751,7 @@ const handlePostClick = (postId: number) => {
               <div>
                 <h4 className="font-semibold mb-4">Contato</h4>
                 <ul className="space-y-2">
-                  <li className="text-gray-600 text-sm">contato@psicopedagogia.com.br</li>
+                  <li className="text-gray-600 text-sm">lidiane@psicopedagogia.com.br</li>
                   <li className="text-gray-600 text-sm">(11) 95882-2954</li>
                   <li className="text-gray-600 text-sm">São Paulo, SP</li>
                 </ul>
