@@ -205,7 +205,7 @@ const handlePostClick = (postId: number) => {
   };
 
   const filteredPosts = activeCategory 
-    ? posts.filter(post => categories.find(cat => cat.id === activeCategory)?.name.toLowerCase() || '')
+    ? posts.filter(() => categories.find(cat => cat.id === activeCategory)?.name.toLowerCase() || '')
     : posts;
 
   const paginatedPosts = filteredPosts.slice(0, currentPage * postsPerPage);
