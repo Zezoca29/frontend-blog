@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { Instagram, Linkedin, MessageCircle } from 'lucide-react';
 
 const SobreMim = () => {
@@ -607,11 +608,9 @@ const SobreMim = () => {
               <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
               <span className="logo-text">Blog Psicopedagógico</span>
             </div>
-            <nav className="nav-links">
-              <a href="/" className="nav-link">Home</a>
+              <Link href="/" className="nav-link">Home</Link>
               <a href="/blog" className="nav-link">Blog</a>
               <a href="/contato" className="nav-link">Contato</a>
-            </nav>
             <button className="hamburger" onClick={toggleMenu}>
               <span></span>
               <span></span>
@@ -619,7 +618,7 @@ const SobreMim = () => {
             </button>
             <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
               <div className="mobile-nav-links">
-                <a href="/" className="mobile-nav-link">Home</a>
+                <Link href="/" className="mobile-nav-link">Home</Link>
                 <a href="/blog" className="mobile-nav-link">Blog</a>
                 <a href="/contato" className="mobile-nav-link">Contato</a>
               </div>
@@ -837,7 +836,7 @@ const SobreMim = () => {
               <div className="footer-col">
             <h3>Links Úteis</h3>
             <ul className="footer-links">
-              <li><a href="/">Home</a></li>
+              <li><Link href="/">Home</Link></li>
               <li><a href="/blog">Blog</a></li>
               <li><a href="/contato">Contato</a></li>
             </ul>

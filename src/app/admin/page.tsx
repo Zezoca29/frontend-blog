@@ -36,9 +36,8 @@ export default function AdminPage() {
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
-  const [editorMounted, setEditorMounted] = useState(false);
   const headingLevels: Array<1 | 2 | 3 | 4> = [1, 2, 3, 4];
-  const [selectedHeadingLevel, setSelectedHeadingLevel] = useState<1 | 2 | 3 | 4>(1);
+  // Removed unused selectedHeadingLevel state
   const [showHeadingOptions, setShowHeadingOptions] = useState(false);
   const [showLinkInput, setShowLinkInput] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
@@ -50,10 +49,6 @@ export default function AdminPage() {
       router.push('/login'); // Redireciona para o login caso o token não exista
     }
   }, [router]);
-
-  useEffect(() => {
-    setEditorMounted(true);
-  }, []);
 
   const editor = useEditor({
     extensions: [
@@ -68,6 +63,10 @@ export default function AdminPage() {
     ],
     content: '<p>Escreva aqui...</p>',
   });
+
+  useEffect(() => {
+    // Add any side effects or logic here if needed
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -365,7 +364,7 @@ export default function AdminPage() {
                               }`}
                               onClick={() => {
                                 editor?.chain().focus().toggleHeading({ level }).run();
-                                setSelectedHeadingLevel(level);
+                                setShowHeadingOptions(false);
                                 setShowHeadingOptions(false);
                               }}
                             >

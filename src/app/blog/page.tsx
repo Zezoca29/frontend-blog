@@ -5,19 +5,15 @@ import Image from 'next/image';
 import Head from 'next/head';
 import * as dotenv from 'dotenv';
 import { 
-  ArrowLeft, 
-  ArrowRight, 
   Search, 
   Menu, 
   X, 
   Heart, 
-  MessageSquare, 
   Calendar, 
   Clock, 
   Plus, 
   Loader, 
   Bookmark, 
-  Share,
   BookOpen,
   User,
   Linkedin,
@@ -29,9 +25,9 @@ import {
 dotenv.config();
 
 interface BlogPost {
+  content: any;
   id: number;
   title: string;
-  content: string;
   created_at: string;
   updated_at?: string;
   slug?: string;
@@ -600,8 +596,8 @@ const handlePostClick = (postId: number) => {
                   <h3 className="font-semibold text-xl mb-1">Dra. Lidiane</h3>
                   <p className="text-[#3e6fc6] text-sm mb-3">Psicopedagoga • Mestre em Educação</p>
                   <p className="text-gray-600 text-sm mb-4">
-                    "Transformar dificuldades em oportunidades de crescimento é a essência do trabalho psicopedagógico."
-                  </p>
+  Transformando vidas através do conhecimento e intervenções psicopedagógicas.
+</p>
                   <div className="flex justify-center space-x-3">
                     <a className="text-gray-600 hover:text-[#3e6fc6]">
                       <Linkedin size={18} />
