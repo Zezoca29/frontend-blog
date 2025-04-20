@@ -179,11 +179,11 @@ const handlePostClick = (postId: number) => {
     return null;
   };
 
-  const extractTags = (content?: any): string[] => {
-    // Esta é uma função de exemplo para extrair tags de um conteúdo
-    // Na implementação real, você poderia ter as tags como parte do modelo de dados
-    const commonTags = ['desenvolvimento', 'aprendizagem', 'inclusão', 'educação'];
-    const randomTags: string[] = [];
+  const extractTags = (): string[] => {
+      // Esta é uma função de exemplo para extrair tags de um conteúdo
+      // Na implementação real, você poderia ter as tags como parte do modelo de dados
+      const commonTags = ['desenvolvimento', 'aprendizagem', 'inclusão', 'educação'];
+      const randomTags: string[] = [];
     
     // Seleciona de 1 a 3 tags aleatórias para este exemplo
     const numTags = Math.floor(Math.random() * 3) + 1;
@@ -494,7 +494,7 @@ const handlePostClick = (postId: number) => {
                                 
                                 <div className="flex justify-between items-center">
                                   <div className="flex space-x-2">
-                                  {extractTags(post.content).map(tag => (
+                                  {extractTags().map(tag => (
                                     <span key={tag} className="text-xs px-2 py-1 bg-gray-100 rounded-full">
                                     {tag}
                                     </span>
