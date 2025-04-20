@@ -179,7 +179,7 @@ const handlePostClick = (postId: number) => {
     return null;
   };
 
-  const extractTags = (content: string): string[] => {
+  const extractTags = (content?: any): string[] => {
     // Esta é uma função de exemplo para extrair tags de um conteúdo
     // Na implementação real, você poderia ter as tags como parte do modelo de dados
     const commonTags = ['desenvolvimento', 'aprendizagem', 'inclusão', 'educação'];
