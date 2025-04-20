@@ -373,8 +373,8 @@ const Page = () => {
               <span className="logo-text">Blog Psicopedagógico</span>
             </div>
             <nav className="nav-links">
-              <Link href="/" className="nav-link">Home</Link>
-              <Link href="/blog" className="nav-link">Blog</Link>
+              <a href="/" className="nav-link">Home</a>
+              <a href="/blog" className="nav-link">Blog</a>
               <a href="/sobre" className="nav-link">Sobre Mim</a>
               <a href="/login" className="nav-link">Login</a>
             </nav>

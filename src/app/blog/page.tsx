@@ -25,7 +25,6 @@ import {
 dotenv.config();
 
 interface BlogPost {
-  content: any;
   id: number;
   title: string;
   created_at: string;
@@ -242,7 +241,7 @@ const handlePostClick = (postId: number) => {
   };
 
   const filteredPosts = activeCategory 
-    ? posts.filter(post => post.content.toLowerCase().includes(categories.find(cat => cat.id === activeCategory)?.name.toLowerCase() || ''))
+    ? posts.filter(post => categories.find(cat => cat.id === activeCategory)?.name.toLowerCase() || '')
     : posts;
 
   const paginatedPosts = filteredPosts.slice(0, currentPage * postsPerPage);
@@ -286,7 +285,7 @@ const handlePostClick = (postId: number) => {
         <meta property="og:image" content="/blog/og-image.jpg" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="canonical" href="https://seudominio.com.br/blog" />
+        <link rel="canonical" href="/blog" />
       </Head>
 
       {/* Mobile Menu Overlay */}
@@ -442,7 +441,7 @@ const handlePostClick = (postId: number) => {
                               >
                                 <div className="relative h-48">
                                 <Image 
-                                  src={getImageFromContent(post.content) || "/api/placeholder/600/400"} 
+                                  src="/api/placeholder/600/400" 
                                   alt={post.title} 
                                   fill 
                                   className="object-cover" 
@@ -472,9 +471,9 @@ const handlePostClick = (postId: number) => {
                                 {expandedPostId === post.id ? (
                                   // Conteúdo expandido
                                   <div className="mt-4">
-                                  <div className="text-gray-700 mb-6" 
-                                    dangerouslySetInnerHTML={{ __html: renderContent(post.content) }}>
-                                  </div>
+                                    <div className="text-gray-700 mb-6">
+                                    {post.excerpt}
+                                    </div>
                                   <button 
                                     className="text-[#3e6fc6] font-medium hover:underline"
                                     onClick={(e) => {
@@ -487,9 +486,9 @@ const handlePostClick = (postId: number) => {
                                   </div>
                                 ) : (
                                   // Conteúdo resumido
-                                  <p className="text-gray-600 mb-4 line-clamp-3">
-                                  {stripMarkdown(post.content).substring(0, 120)}...
-                                  </p>
+                                    <p className="text-gray-600 mb-4 line-clamp-3">
+                                    {post.excerpt}...
+                                    </p>
                                 )}
                                 
                                 <div className="flex justify-between items-center">
