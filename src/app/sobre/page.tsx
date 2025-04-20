@@ -605,12 +605,14 @@ const SobreMim = () => {
         <header className="header">
           <div className="container nav-container">
             <div className="logo-container">
-              <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
-              <span className="logo-text">Blog Psicopedagógico</span>
+            <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
+            <span className="logo-text">Blog Psicopedagógico</span>
             </div>
-              <Link href="/" className="nav-link">Home</Link>
-              <Link href="/blog" className="nav-link">Blog</Link>
-              <Link href="/contato" className="nav-link">Contato</Link>
+            <div className="nav-links">
+            <Link href="/" className="nav-link">Home</Link>
+            <Link href="/blog" className="nav-link">Blog</Link>
+            <Link href="/contato" className="nav-link">Contato</Link>
+            </div>
             <button className="hamburger" onClick={toggleMenu}>
               <span></span>
               <span></span>
