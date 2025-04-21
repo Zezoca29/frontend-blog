@@ -346,54 +346,132 @@ const Page = () => {
             color: #aaa;
             font-size: 0.9rem;
           }
-          @media (max-width: 768px) {
-            .hero h1 {
-              font-size: 2rem;
-            }
-            .section-title {
-              font-size: 1.5rem;
-            }
-            .nav-links {
-              display: none;
-            }
-            .hamburger {
-              display: flex;
-            }
-            .post-card {
-              max-width: 400px;
-              margin: 0 auto;
-            }
-          }
-        `}</style>
+          // Adicione isso na seção de estilos no media query para mobile
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .post-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  /* Novas regras para dispositivos móveis */
+  .logo-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .logo-text {
+    font-size: 1.2rem;
+  }
+  /* Garante que o logo tenha um tamanho máximo em telas pequenas */
+  .logo-container img {
+    max-width: 80px;
+    height: auto;
+  }
+}
+  .logo-container img {
+  max-height: 40px;
+  width: auto;
+  transition: all 0.3s ease;
+}
+  @media (max-width: 480px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+  .logo-container img {
+    max-width: 60px;
+  }
+}
+  /* Estilos para o menu-button */
+.menu-button {
+  display: none; /* Escondido por padrão em telas grandes */
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background-color: #6dbc30;
+}
+
+.menu-button .hamburger {
+  display: flex;
+  margin-left: 0.3rem;
+}
+
+.menu-button .hamburger span {
+  width: 18px;
+  height: 2px;
+  background-color: white;
+  margin: 2px 0;
+}
+
+.menu-text {
+  font-size: 0.9rem;
+}
+
+/* Ajuste para telas médias e pequenas */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Esconde a navegação tradicional */
+  }
+  
+  .menu-button {
+    display: flex; /* Mostra o botão de menu */
+  }
+}
+        `}
+        </style>
       </head>
       <body>
-        <header className="header">
-          <div className="container nav-container">
-            <div className="logo-container">
-              <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
-              <span className="logo-text">Blog Psicopedagógico</span>
-            </div>
-            <nav className="nav-links">
-            <Link href="/" className="nav-link">Home</Link>
-  <Link href="/blog" className="nav-link">Blog</Link>
-  <Link href="/sobre" className="nav-link">Sobre Mim</Link>
-  <Link href="/login" className="nav-link">Login</Link>
-            </nav>
-            <button className="hamburger" onClick={toggleMenu}>
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
-            <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
-              <div className="mobile-nav-links">
-              <Link href="/" className="mobile-nav-link">Home</Link>
-  <Link href="/blog" className="mobile-nav-link">Blog</Link>
-  <Link href="/sobre" className="mobile-nav-link">Sobre Mim</Link>
-  <Link href="/login" className="mobile-nav-link">Login</Link>
-              </div>
-            </div>
-          </div>
-        </header>
+      <header className="header">
+  <div className="container nav-container">
+    <div className="logo-container">
+      <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
+      <span className="logo-text">Blog Psicopedagógico</span>
+    </div>
+    <nav className="nav-links">
+      <Link href="/" className="nav-link">Home</Link>
+      <Link href="/blog" className="nav-link">Blog</Link>
+      <Link href="/sobre" className="nav-link">Sobre Mim</Link>
+      <Link href="/login" className="nav-link">Login</Link>
+    </nav>
+    <button className="menu-button" onClick={toggleMenu} aria-label="Menu de navegação">
+      <span className="menu-text">Menu</span>
+      <div className="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </button>
+    <div className={`mobile-menu ${menuOpen ? 'open' : ''}`}>
+      <div className="mobile-nav-links">
+        <Link href="/" className="mobile-nav-link">Home</Link>
+        <Link href="/blog" className="mobile-nav-link">Blog</Link>
+        <Link href="/sobre" className="mobile-nav-link">Sobre Mim</Link>
+        <Link href="/login" className="mobile-nav-link">Login</Link>
+      </div>
+    </div>
+  </div>
+</header>
         <section className="hero">
           <div className="container">
             <h1>Apoio especializado para o desenvolvimento infantil</h1>

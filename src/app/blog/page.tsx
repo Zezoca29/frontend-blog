@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { JSX, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Head from 'next/head';
+import Link from 'next/link';
 import * as dotenv from 'dotenv';
 import { 
   Search, 
@@ -19,7 +20,8 @@ import {
   Linkedin,
   Instagram,
   Youtube,
-  Quote
+  Quote,
+  MessageCircle
 } from 'lucide-react';
 
 dotenv.config();
@@ -241,6 +243,192 @@ const handlePostClick = (postId: number) => {
 
   return (
     <>
+    {/* Utilize styled-jsx da maneira correta no App Router */}
+    <style>{`
+        .header {
+          background-color: #3e6fc6;
+          padding: 1rem 0;
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+        .nav-container {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: relative;
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 1rem;
+        }
+        .logo-container {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+        .logo-text {
+          color: white;
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+        .nav-links {
+          display: flex;
+          gap: 2rem;
+        }
+        .nav-link {
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+        .nav-link:hover {
+          color: #7fd13f;
+        }
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          cursor: pointer;
+          background: none;
+          border: none;
+          padding: 5px;
+        }
+        .hamburger span {
+          width: 25px;
+          height: 3px;
+          background-color: white;
+          margin: 3px 0;
+          border-radius: 3px;
+          transition: all 0.3s ease;
+        }
+        .mobile-menu {
+          position: absolute;
+          right: 0;
+          top: 100%;
+          background-color: #3e6fc6;
+          width: 100%;
+          max-height: 0;
+          overflow: hidden;
+          transition: max-height 0.3s ease-in-out;
+          z-index: 1000;
+          border-radius: 0 0 10px 10px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .mobile-menu.open {
+          max-height: 300px;
+        }
+        .mobile-nav-links {
+          display: flex;
+          flex-direction: column;
+          padding: 1rem;
+        }
+        .mobile-nav-link {
+          color: white;
+          text-decoration: none;
+          font-weight: 500;
+          padding: 0.8rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          transition: all 0.3s ease;
+        }
+        .mobile-nav-link:last-child {
+          border-bottom: none;
+        }
+        .mobile-nav-link:hover {
+          color: #7fd13f;
+        }
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+          }
+          .hamburger {
+            display: flex;
+          }
+        }
+          @media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  .section-title {
+    font-size: 1.5rem;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .post-card {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+    
+  .logo-text {
+    font-size: 1rem;
+  }
+  /* Garante que o logo tenha um tamanho máximo em telas pequenas */
+  .logo-container img {
+    max-width: 80px;
+    height: auto;
+  }
+}
+  .logo-container img {
+  max-height: 40px;
+  width: auto;
+  transition: all 0.3s ease;
+}
+  @media (max-width: 480px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+  .logo-container img {
+    max-width: 60px;
+  }
+}
+  /* Estilos para o menu-button */
+.menu-button {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.menu-button:hover {
+  background-color: #6dbc30;
+}
+
+.menu-button .hamburger {
+  display: flex;
+  margin-left: 0.3rem;
+}
+
+.menu-button .hamburger span {
+  width: 18px;
+  height: 2px;
+  background-color: white;
+  margin: 2px 0;
+}
+
+.menu-text {
+  font-size: 0.9rem;
+}
+
+/* Ajuste para telas médias e pequenas */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none; /* Esconde a navegação tradicional */
+  }
+  
+  .menu-button {
+    display: flex; /* Mostra o botão de menu */
+  }
+}
+      `}
+      </style>
+
       <Head>
         <title>Blog Psicopedagógico | Insights para Desenvolvimento e Aprendizagem</title>
         <meta name="description" content="Descubra estratégias inovadoras para promover o desenvolvimento integral na infância e adolescência." />
@@ -252,99 +440,77 @@ const handlePostClick = (postId: number) => {
         <link rel="canonical" href="/blog" />
       </Head>
 
-      {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-        <div className={`absolute right-0 top-0 h-full w-64 bg-white shadow-xl transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="p-6">
-            <div className="flex justify-between items-center mb-8">
-              <Image src="/blog/Logo.png" alt="Logo" width={100} height={30} />
-              <button onClick={() => setIsMenuOpen(false)}>
-                <X size={24} />
-              </button>
-            </div>
-            
-            <div className="space-y-6">
-              <a 
-              className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              >
-              Início
-              </a>
-              <a 
-              className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-              onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-              Artigos
-              </a>
-                <a 
-                className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-                onClick={() => router.push('/home')}
-                >
-                Home
-                </a>
-              <a 
-              className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-              onClick={() => document.getElementById('about-section')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-              Sobre
-              </a>
-              <a 
-              className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-              onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-              Contato
-              </a>
-            </div>
-            
-            <div className="mt-8 pt-8 border-t">
-              <div className="relative">
-                <input type="text" placeholder="Pesquisar..." className="w-full pl-9 pr-4 py-2 rounded-lg border text-sm" />
-                <Search size={16} className="absolute top-3 left-3 text-gray-400" />
-              </div>
-            </div>
-          </div>
+     {/* Header do page.tsx raiz */}
+<header className="header">
+  <div className="nav-container">
+    <div className="logo-container">
+      <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
+      <span className="logo-text">Blog Psicopedagógico</span>
+    </div>
+    <nav className="nav-links">
+      <Link href="/" className="nav-link">Home</Link>
+      <Link href="/blog" className="nav-link">Blog</Link>
+      <Link href="/sobre" className="nav-link">Sobre Mim</Link>
+      <Link href="/login" className="nav-link">Login</Link>
+    </nav>
+    <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+{/* Mobile Menu Overlay */}
+<div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+  <div className={`absolute right-0 top-0 h-full w-64 bg-white shadow-xl transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+    <div className="p-6">
+      <div className="flex justify-between items-center mb-8">
+        <Image src="/blog/Logo.png" alt="Logo" width={100} height={30} />
+        <button onClick={() => setIsMenuOpen(false)}>
+          <X size={24} />
+        </button>
+      </div>
+      
+      <div className="space-y-6">
+        <Link 
+          href="/"
+          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+        >
+          Home
+        </Link>
+        <Link 
+          href="/blog"
+          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+        >
+          Blog
+        </Link>
+        <Link 
+          href="/sobre"
+          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+        >
+          Sobre Mim
+        </Link>
+        <Link 
+          href="/login"
+          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+        >
+          Login
+        </Link>
+      </div>
+      
+      <div className="mt-8 pt-8 border-t">
+        <div className="relative">
+          <input type="text" placeholder="Pesquisar..." className="w-full pl-9 pr-4 py-2 rounded-lg border text-sm" />
+          <Search size={16} className="absolute top-3 left-3 text-gray-400" />
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
       {/* Main Container */}
       <div className="bg-gray-50 min-h-screen">
-        {/* Navbar */}
-        <nav className="sticky top-0 z-40 bg-white shadow-sm px-6 py-3 flex justify-between items-center">
-          <div className="flex items-center">
-            <Image src="/blog/Logo.png" alt="Logo" width={120} height={40} priority />
-          </div>
-            <div className="hidden md:flex space-x-6">
-            <a 
-              className="text-gray-700 hover:text-[#3e6fc6] transition cursor-pointer"
-              onClick={() => router.push('/')}
-            >
-              Home
-            </a>
-            <a 
-              className="text-gray-700 hover:text-[#3e6fc6] transition cursor-pointer"
-              onClick={() => document.getElementById('articles-section')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Artigos
-            </a>
-            <a 
-              className="text-gray-700 hover:text-[#3e6fc6] transition cursor-pointer"
-              onClick={() => document.getElementById('contact-section')?.scrollIntoView({ behavior: 'smooth' })}
-            >
-              Contato
-            </a>
-            </div>
-          
-          <div className="flex items-center space-x-4">
-            <div className="relative hidden md:block">
-              <input type="text" placeholder="Pesquisar..." className="pl-9 pr-4 py-2 rounded-full border text-sm" />
-              <Search size={16} className="absolute top-2.5 left-3 text-gray-400" />
-            </div>
-            <button className="md:hidden" onClick={() => setIsMenuOpen(true)}>
-              <Menu size={24} />
-            </button>
-          </div>
-        </nav>
-
         {/* Main Content */}
         <div className="max-w-6xl mx-auto px-4 py-8">
           {/* Banner Principal */}
@@ -371,7 +537,7 @@ const handlePostClick = (postId: number) => {
             {/* Left Content */}
             <div className="lg:col-span-2">
               {/* Categories */}
-              <div className="flex flex-wrap gap-2 mb-8">
+              <div className="flex flex-wrap gap-2 mb-8" id="articles-section">
                 <button 
                   className={`flex items-center px-4 py-2 rounded-full text-sm font-medium 
                             ${activeCategory === null 
@@ -389,103 +555,102 @@ const handlePostClick = (postId: number) => {
                                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
                           onClick={() => setActiveCategory(cat.id)}>
                     {cat.icon}
+                    <span className="ml-1">{cat.name}</span>
+                  </button>
+                ))}
+              </div>
 
-                              </button>
-                            ))}
+              {/* Posts Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {paginatedPosts.length > 0 ? (
+                  paginatedPosts.map((post) => (
+                    <div 
+                      key={post.id} 
+                      className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
+                      onClick={() => handlePostClick(post.id)}
+                    >
+                      <div className="relative h-48">
+                        <Image 
+                          src="/blog/imagem 2.jpg" 
+                          alt={post.title} 
+                          fill 
+                          className="object-cover" 
+                        />
+                        <div className="absolute top-0 right-0 m-2 px-2 py-1 text-xs bg-[#f9d56e] text-gray-800 rounded-full">
+                          Nova perspectiva
+                        </div>
+                      </div>
+                      
+                      <div className="p-5">
+                        <div className="flex items-center text-xs text-gray-500 mb-3">
+                          <Calendar size={14} className="mr-1" />
+                          <span>
+                            {new Date(post.created_at).toLocaleDateString('pt-BR', {
+                              day: '2-digit',
+                              month: 'long',
+                              year: 'numeric',
+                            })}
+                          </span>
+                          <span className="mx-2">•</span>
+                          <Clock size={14} className="mr-1" />
+                          <span>7 min de leitura</span>
+                        </div>
+                        
+                        <h2 className="font-semibold text-xl mb-2 line-clamp-2">{post.title}</h2>
+                        
+                        {expandedPostId === post.id ? (
+                          // Conteúdo expandido
+                          <div className="mt-4">
+                            <div className="text-gray-700 mb-6">
+                              {post.excerpt}
                             </div>
-
-                            {/* Posts Grid */}
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-                            {paginatedPosts.length > 0 ? (
-                              paginatedPosts.map((post) => (
-                              <div 
-                              key={post.id} 
-                              className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
-                              onClick={() => handlePostClick(post.id)}
-                              >
-                                <div className="relative h-48">
-                                <Image 
-                                  src="/blog/imagem 2.jpg" 
-                                  alt={post.title} 
-                                  fill 
-                                  className="object-cover" 
-                                />
-                                <div className="absolute top-0 right-0 m-2 px-2 py-1 text-xs bg-[#f9d56e] text-gray-800 rounded-full">
-                                  Nova perspectiva
-                                </div>
-                                </div>
-                                
-                                <div className="p-5">
-                                <div className="flex items-center text-xs text-gray-500 mb-3">
-                                  <Calendar size={14} className="mr-1" />
-                                  <span>
-                                  {new Date(post.created_at).toLocaleDateString('pt-BR', {
-                                    day: '2-digit',
-                                    month: 'long',
-                                    year: 'numeric',
-                                  })}
-                                  </span>
-                                  <span className="mx-2">•</span>
-                                  <Clock size={14} className="mr-1" />
-                                  <span>7 min de leitura</span>
-                                </div>
-                                
-                                <h2 className="font-semibold text-xl mb-2 line-clamp-2">{post.title}</h2>
-                                
-                                {expandedPostId === post.id ? (
-                                  // Conteúdo expandido
-                                  <div className="mt-4">
-                                    <div className="text-gray-700 mb-6">
-                                    {post.excerpt}
-                                    </div>
-                                  <button 
-                                    className="text-[#3e6fc6] font-medium hover:underline"
-                                    onClick={(e) => {
-                                    e.stopPropagation();
-                                    setExpandedPostId(null);
-                                    }}
-                                  >
-                                    Recolher
-                                  </button>
-                                  </div>
-                                ) : (
-                                  // Conteúdo resumido
-                                    <p className="text-gray-600 mb-4 line-clamp-3">
-                                    {post.excerpt}...
-                                    </p>
-                                )}
-                                
-                                <div className="flex justify-between items-center">
-                                  <div className="flex space-x-2">
-                                  {extractTags().map(tag => (
-                                    <span key={tag} className="text-xs px-2 py-1 bg-gray-100 rounded-full">
-                                    {tag}
-                                    </span>
-                                  ))}
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                  <button 
-                                    className="text-gray-400 hover:text-red-500 transition"
-                                    onClick={(e) => {
-                                    e.stopPropagation();
-                                    toggleLike(post.id);
-                                    }}
-                                  >
-                                    <Heart size={18} className={likedPosts[post.id] ? "fill-red-500 text-red-500" : ""} />
-                                  </button>
-                                  <button 
-                                    className="text-gray-400 hover:text-[#3e6fc6] transition"
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    <Bookmark size={18} />
-                                  </button>
-                                  </div>
-                                </div>
-                                </div>
-                              </div>
-                              ))
-                            ) : (
+                            <button 
+                              className="text-[#3e6fc6] font-medium hover:underline"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setExpandedPostId(null);
+                              }}
+                            >
+                              Recolher
+                            </button>
+                          </div>
+                        ) : (
+                          // Conteúdo resumido
+                          <p className="text-gray-600 mb-4 line-clamp-3">
+                            {post.excerpt}...
+                          </p>
+                        )}
+                        
+                        <div className="flex justify-between items-center">
+                          <div className="flex space-x-2">
+                            {extractTags().map(tag => (
+                              <span key={tag} className="text-xs px-2 py-1 bg-gray-100 rounded-full">
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <button 
+                              className="text-gray-400 hover:text-red-500 transition"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                toggleLike(post.id);
+                              }}
+                            >
+                              <Heart size={18} className={likedPosts[post.id] ? "fill-red-500 text-red-500" : ""} />
+                            </button>
+                            <button 
+                              className="text-gray-400 hover:text-[#3e6fc6] transition"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Bookmark size={18} />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
                   <div className="col-span-2 text-center py-12">
                     <p className="text-gray-500">Nenhum post disponível para esta categoria.</p>
                   </div>
@@ -560,13 +725,13 @@ const handlePostClick = (postId: number) => {
                   <h3 className="font-semibold text-xl mb-1">Dra. Lidiane</h3>
                   <p className="text-[#3e6fc6] text-sm mb-3">Psicopedagoga • Mestre em Educação</p>
                   <p className="text-gray-600 text-sm mb-4">
-  Transformando vidas através do conhecimento e intervenções psicopedagógicas.
-</p>
+                    Transformando vidas através do conhecimento e intervenções psicopedagógicas.
+                  </p>
                   <div className="flex justify-center space-x-3">
                     <a className="text-gray-600 hover:text-[#3e6fc6]">
                       <Linkedin size={18} />
                     </a>
-                    <a className="text-gray-600 hover:text-[#3e6fc6]">
+                    <a href="https://www.instagram.com/lr_espaco_pedagogico/" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-[#3e6fc6]">
                       <Instagram size={18} />
                     </a>
                     <a className="text-gray-600 hover:text-[#3e6fc6]">
@@ -589,7 +754,6 @@ const handlePostClick = (postId: number) => {
                   <span className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition cursor-pointer">Tecnologia na Educação</span>
                 </div>
               </div>
-
               {/* Featured Resources */}
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="font-semibold text-lg mb-4">Recursos em Destaque</h3>

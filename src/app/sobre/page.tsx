@@ -598,6 +598,9 @@ const SobreMim = () => {
               left: -10px;
               right: auto;
             }
+            span.logo-text{
+            font-size: .5rem;
+            }
           }
         `}</style>
       </head>
