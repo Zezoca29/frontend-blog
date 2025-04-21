@@ -7,7 +7,6 @@ import Link from 'next/link';
 import * as dotenv from 'dotenv';
 import { 
   Search, 
-  Menu, 
   X, 
   Heart, 
   Calendar, 
@@ -21,7 +20,6 @@ import {
   Instagram,
   Youtube,
   Quote,
-  MessageCircle
 } from 'lucide-react';
 
 dotenv.config();
@@ -65,8 +63,6 @@ export default function BlogPage() {
   const [hasMore, setHasMore] = useState(true);
   const [likedPosts, setLikedPosts] = useState<{[key: number]: boolean}>({});
   const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
-  
-  const router = useRouter();
   const postsPerPage = 6;
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
@@ -358,7 +354,7 @@ const handlePostClick = (postId: number) => {
     max-width: 400px;
     margin: 0 auto;
   }
-    
+
   .logo-text {
     font-size: 1rem;
   }
