@@ -19,7 +19,6 @@ import {
   Instagram,
   Youtube,
   Quote,
-  ChevronLeft,
   Share2,
 } from 'lucide-react';
 
@@ -64,7 +63,6 @@ export default function BlogPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [likedPosts, setLikedPosts] = useState<{[key: number]: boolean}>({});
-  const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const postsPerPage = 6;
