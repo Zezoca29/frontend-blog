@@ -19,6 +19,8 @@ import {
   Instagram,
   Youtube,
   Quote,
+  ChevronLeft,
+  Share2,
 } from 'lucide-react';
 
 dotenv.config();
@@ -30,6 +32,7 @@ interface BlogPost {
   updated_at?: string;
   slug?: string;
   excerpt?: string;
+  content?: string; // Adicionamos o campo content
 }
 
 interface Category {
@@ -62,14 +65,30 @@ export default function BlogPage() {
   const [hasMore, setHasMore] = useState(true);
   const [likedPosts, setLikedPosts] = useState<{[key: number]: boolean}>({});
   const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const postsPerPage = 6;
   const totalPages = Math.ceil(posts.length / postsPerPage);
 
-  // 2. Adicione uma função para manipular o clique no card
-const handlePostClick = (postId: number) => {
-  // Se o post já está expandido, recolha-o; caso contrário, expanda-o
-  setExpandedPostId(expandedPostId === postId ? null : postId);
-};
+  // Função para lidar com o clique no card
+  const handlePostClick = (post: BlogPost) => {
+    setSelectedPost(post);
+    setIsModalOpen(true);
+    // Desabilitar scroll do body quando modal estiver aberto
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+    }
+  };
+
+  // Função para fechar o modal
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedPost(null);
+    // Habilitar scroll do body novamente
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'auto';
+    }
+  };
 
   // Exemplo de categorias
   const categories: Category[] = [
@@ -106,6 +125,35 @@ const handlePostClick = (postId: number) => {
     }
   ];
 
+  const mockContent = `
+    <p>A dislexia é um transtorno específico de aprendizagem que afeta a capacidade de leitura e compreensão de textos. É importante entender que pessoas com dislexia não têm déficit de inteligência — na verdade, muitas são extremamente criativas e talentosas em diversas áreas.</p>
+    
+    <h3>Como identificar sinais de dislexia</h3>
+    
+    <p>Os sinais da dislexia podem aparecer desde cedo no desenvolvimento infantil, mesmo antes da alfabetização formal. Alguns indicadores incluem:</p>
+    
+    <ul>
+      <li>Dificuldade em aprender rimas e sequências (dias da semana, meses do ano)</li>
+      <li>Confusão entre letras com sons similares (b/d, p/q)</li>
+      <li>Lentidão na aquisição da leitura comparada aos colegas</li>
+      <li>Dificuldade em organizar ideias na escrita</li>
+      <li>Resistência a atividades que envolvam leitura</li>
+    </ul>
+    
+    <h3>Estratégias de intervenção</h3>
+    
+    <p>A intervenção precoce faz toda a diferença no desenvolvimento acadêmico da criança com dislexia. Algumas estratégias eficazes são:</p>
+    
+    <ol>
+      <li><strong>Método fônico:</strong> trabalhar sistematicamente a relação entre sons e letras</li>
+      <li><strong>Multissensorialidade:</strong> usar diferentes canais sensoriais para fixar o aprendizado</li>
+      <li><strong>Tecnologia assistiva:</strong> utilizar recursos como leitores de texto e corretores ortográficos</li>
+      <li><strong>Adaptações escolares:</strong> tempo adicional em avaliações, materiais adaptados</li>
+    </ol>
+    
+    <p>Vale ressaltar que cada criança com dislexia é única e precisa de um planejamento individualizado que considere suas necessidades específicas.</p>
+  `;
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -127,11 +175,12 @@ const handlePostClick = (postId: number) => {
           throw new Error('Formato de dados inválido');
         }
 
-        // Adicionando slugs aos posts para demonstração
+        // Adicionando slugs aos posts para demonstração e conteúdo mockado
         const postsWithSlugs = data.map(post => ({
           ...post,
           slug: generateSlug(post.title),
-          excerpt: stripMarkdown(post.content).substring(0, 160)
+          excerpt: stripMarkdown(post.content || mockContent).substring(0, 160),
+          content: post.content || mockContent // Adicionando conteúdo mockado para demonstração
         }));
 
         setPosts(postsWithSlugs);
@@ -155,6 +204,7 @@ const handlePostClick = (postId: number) => {
 
   const stripMarkdown = (text: string): string => {
     return text
+      .replace(/<[^>]*>/g, '') // Remove HTML tags
       .replace(/!\[.*?\]\(.*?\)/g, '')
       .replace(/\[.*?\]\(.*?\)/g, '$1')
       .replace(/#{1,6}\s?/g, '')
@@ -238,8 +288,8 @@ const handlePostClick = (postId: number) => {
 
   return (
     <>
-    {/* Utilize styled-jsx da maneira correta no App Router */}
-    <style>{`
+      {/* Estilos para o header e componentes */}
+      <style jsx global>{`
         .header {
           background-color: #3e6fc6;
           padding: 1rem 0;
@@ -336,93 +386,178 @@ const handlePostClick = (postId: number) => {
             display: flex;
           }
         }
-          @media (max-width: 768px) {
-  .hero h1 {
-    font-size: 2rem;
-  }
-  .section-title {
-    font-size: 1.5rem;
-  }
-  .nav-links {
-    display: none;
-  }
-  .hamburger {
-    display: flex;
-  }
-  .post-card {
-    max-width: 400px;
-    margin: 0 auto;
-  }
+        @media (max-width: 768px) {
+          .hero h1 {
+            font-size: 2rem;
+          }
+          .section-title {
+            font-size: 1.5rem;
+          }
+          .nav-links {
+            display: none;
+          }
+          .hamburger {
+            display: flex;
+          }
+          .post-card {
+            max-width: 400px;
+            margin: 0 auto;
+          }
 
-  .logo-text {
-    font-size: 1rem;
-  }
-  /* Garante que o logo tenha um tamanho máximo em telas pequenas */
-  .logo-container img {
-    max-width: 80px;
-    height: auto;
-  }
-}
-  .logo-container img {
-  max-height: 40px;
-  width: auto;
-  transition: all 0.3s ease;
-}
-  @media (max-width: 480px) {
-  .logo-text {
-    font-size: 1rem;
-  }
-  .logo-container img {
-    max-width: 60px;
-  }
-}
-  /* Estilos para o menu-button */
-.menu-button {
-  display: none;
-  align-items: center;
-  gap: 0.5rem;
-  background-color: var(--secondary);
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 0.5rem 1rem;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.menu-button:hover {
-  background-color: #6dbc30;
-}
-
-.menu-button .hamburger {
-  display: flex;
-  margin-left: 0.3rem;
-}
-
-.menu-button .hamburger span {
-  width: 18px;
-  height: 2px;
-  background-color: white;
-  margin: 2px 0;
-}
-
-.menu-text {
-  font-size: 0.9rem;
-}
-
-/* Ajuste para telas médias e pequenas */
-@media (max-width: 768px) {
-  .nav-links {
-    display: none; /* Esconde a navegação tradicional */
-  }
-  
-  .menu-button {
-    display: flex; /* Mostra o botão de menu */
-  }
-}
-      `}
-      </style>
+          .logo-text {
+            font-size: 1rem;
+          }
+          .logo-container img {
+            max-width: 80px;
+            height: auto;
+          }
+        }
+        .logo-container img {
+          max-height: 40px;
+          width: auto;
+          transition: all 0.3s ease;
+        }
+        @media (max-width: 480px) {
+          .logo-text {
+            font-size: 1rem;
+          }
+          .logo-container img {
+            max-width: 60px;
+          }
+        }
+        .menu-button {
+          display: none;
+          align-items: center;
+          gap: 0.5rem;
+          background-color: var(--secondary);
+          color: white;
+          border: none;
+          border-radius: 4px;
+          padding: 0.5rem 1rem;
+          cursor: pointer;
+          font-weight: 500;
+          transition: all 0.3s ease;
+        }
+        .menu-button:hover {
+          background-color: #6dbc30;
+        }
+        .menu-button .hamburger {
+          display: flex;
+          margin-left: 0.3rem;
+        }
+        .menu-button .hamburger span {
+          width: 18px;
+          height: 2px;
+          background-color: white;
+          margin: 2px 0;
+        }
+        .menu-text {
+          font-size: 0.9rem;
+        }
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+          }
+          .menu-button {
+            display: flex;
+          }
+          .text-sm {
+            font-size: 10px;
+          }
+        }
+        
+        /* Estilos para o modal */
+        .modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 9999;
+          padding: 20px;
+          overflow-y: auto;
+        }
+        .modal-content {
+          background-color: white;
+          border-radius: 12px;
+          width: 100%;
+          max-width: 800px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+          position: relative;
+          animation: modalFadeIn 0.3s ease-out;
+        }
+        .modal-header {
+          position: sticky;
+          top: 0;
+          background-color: white;
+          padding: 16px 24px;
+          border-bottom: 1px solid #eaeaea;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          z-index: 1;
+        }
+        .modal-body {
+          padding: 24px;
+        }
+        .modal-close {
+          background: none;
+          border: none;
+          cursor: pointer;
+          width: 36px;
+          height: 36px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-radius: 50%;
+          transition: all 0.2s;
+        }
+        .modal-close:hover {
+          background-color: #f5f5f5;
+        }
+        .article-content {
+          line-height: 1.7;
+        }
+        .article-content h3 {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-top: 1.5rem;
+          margin-bottom: 1rem;
+          color: #333;
+        }
+        .article-content p {
+          margin-bottom: 1rem;
+          color: #444;
+        }
+        .article-content ul, .article-content ol {
+          margin-bottom: 1rem;
+          padding-left: 1.5rem;
+        }
+        .article-content li {
+          margin-bottom: 0.5rem;
+        }
+        .article-content strong {
+          font-weight: 600;
+          color: #333;
+        }
+        
+        @keyframes modalFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
 
       <Head>
         <title>Blog Psicopedagógico | Insights para Desenvolvimento e Aprendizagem</title>
@@ -435,74 +570,74 @@ const handlePostClick = (postId: number) => {
         <link rel="canonical" href="/blog" />
       </Head>
 
-     {/* Header do page.tsx raiz */}
-<header className="header">
-  <div className="nav-container">
-    <div className="logo-container">
-      <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
-      <span className="logo-text">Blog Psicopedagógico</span>
-    </div>
-    <nav className="nav-links">
-      <Link href="/" className="nav-link">Home</Link>
-      <Link href="/blog" className="nav-link">Blog</Link>
-      <Link href="/sobre" className="nav-link">Sobre Mim</Link>
-      <Link href="/login" className="nav-link">Login</Link>
-    </nav>
-    <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </div>
-</header>
+      {/* Header */}
+      <header className="header">
+        <div className="nav-container">
+          <div className="logo-container">
+            <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
+            <span className="logo-text">Blog Psicopedagógico</span>
+          </div>
+          <nav className="nav-links">
+            <Link href="/" className="nav-link">Home</Link>
+            <Link href="/blog" className="nav-link">Blog</Link>
+            <Link href="/sobre" className="nav-link">Sobre Mim</Link>
+            <Link href="/login" className="nav-link">Login</Link>
+          </nav>
+          <button className="hamburger" onClick={() => setIsMenuOpen(true)}>
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </header>
 
-{/* Mobile Menu Overlay */}
-<div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-  <div className={`absolute right-0 top-0 h-full w-64 bg-white shadow-xl transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-8">
-        <Image src="/blog/Logo.png" alt="Logo" width={100} height={30} />
-        <button onClick={() => setIsMenuOpen(false)}>
-          <X size={24} />
-        </button>
-      </div>
-      
-      <div className="space-y-6">
-        <Link 
-          href="/"
-          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-        >
-          Home
-        </Link>
-        <Link 
-          href="/blog"
-          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-        >
-          Blog
-        </Link>
-        <Link 
-          href="/sobre"
-          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-        >
-          Sobre Mim
-        </Link>
-        <Link 
-          href="/login"
-          className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
-        >
-          Login
-        </Link>
-      </div>
-      
-      <div className="mt-8 pt-8 border-t">
-        <div className="relative">
-          <input type="text" placeholder="Pesquisar..." className="w-full pl-9 pr-4 py-2 rounded-lg border text-sm" />
-          <Search size={16} className="absolute top-3 left-3 text-gray-400" />
+      {/* Mobile Menu Overlay */}
+      <div className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity ${isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`absolute right-0 top-0 h-full w-64 bg-white shadow-xl transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="p-6">
+            <div className="flex justify-between items-center mb-8">
+              <Image src="/blog/Logo.png" alt="Logo" width={100} height={30} />
+              <button onClick={() => setIsMenuOpen(false)}>
+                <X size={24} />
+              </button>
+            </div>
+            
+            <div className="space-y-6">
+              <Link 
+                href="/"
+                className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+              >
+                Home
+              </Link>
+              <Link 
+                href="/blog"
+                className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+              >
+                Blog
+              </Link>
+              <Link 
+                href="/sobre"
+                className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+              >
+                Sobre Mim
+              </Link>
+              <Link 
+                href="/login"
+                className="block text-lg font-medium text-gray-800 hover:text-[#3e6fc6]" 
+              >
+                Login
+              </Link>
+            </div>
+            
+            <div className="mt-8 pt-8 border-t">
+              <div className="relative">
+                <input type="text" placeholder="Pesquisar..." className="w-full pl-9 pr-4 py-2 rounded-lg border text-sm" />
+                <Search size={16} className="absolute top-3 left-3 text-gray-400" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
 
       {/* Main Container */}
       <div className="bg-gray-50 min-h-screen">
@@ -562,7 +697,7 @@ const handlePostClick = (postId: number) => {
                     <div 
                       key={post.id} 
                       className="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition cursor-pointer"
-                      onClick={() => handlePostClick(post.id)}
+                      onClick={() => handlePostClick(post)}
                     >
                       <div className="relative h-48">
                         <Image 
@@ -593,28 +728,9 @@ const handlePostClick = (postId: number) => {
                         
                         <h2 className="font-semibold text-xl mb-2 line-clamp-2">{post.title}</h2>
                         
-                        {expandedPostId === post.id ? (
-                          // Conteúdo expandido
-                          <div className="mt-4">
-                            <div className="text-gray-700 mb-6">
-                              {post.excerpt}
-                            </div>
-                            <button 
-                              className="text-[#3e6fc6] font-medium hover:underline"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setExpandedPostId(null);
-                              }}
-                            >
-                              Recolher
-                            </button>
-                          </div>
-                        ) : (
-                          // Conteúdo resumido
-                          <p className="text-gray-600 mb-4 line-clamp-3">
-                            {post.excerpt}...
-                          </p>
-                        )}
+                        <p className="text-gray-600 mb-4 line-clamp-3">
+                          {post.excerpt}
+                        </p>
                         
                         <div className="flex justify-between items-center">
                           <div className="flex space-x-2">
@@ -928,6 +1044,45 @@ const handlePostClick = (postId: number) => {
             </div>
           </div>
         </footer>
+
+        {/* Modal de Artigo */}
+{isModalOpen && selectedPost && (
+  <div className="modal-overlay" onClick={closeModal}>
+    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-header">
+        <button className="modal-close" onClick={closeModal}>
+          <X size={24} />
+        </button>
+      </div>
+      <div className="modal-body">
+        <h1 className="text-3xl font-bold mb-4">{selectedPost.title}</h1>
+        <div className="flex items-center text-sm text-gray-500 mb-6">
+          <Calendar size={16} className="mr-1" />
+          <span>
+            {new Date(selectedPost.created_at).toLocaleDateString('pt-BR', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+            })}
+          </span>
+          <span className="mx-2">•</span>
+          <Clock size={16} className="mr-1" />
+          <span>7 min de leitura</span>
+          <div className="flex ml-auto space-x-2">
+            <button className="flex items-center text-gray-500 hover:text-[#3e6fc6]">
+              <Share2 size={16} className="mr-1" />
+              <span>Compartilhar</span>
+            </button>
+          </div>
+        </div>
+        <div 
+          className="article-content"
+          dangerouslySetInnerHTML={{ __html: selectedPost.content || '' }}
+        />
+      </div>
+    </div>
+  </div>
+)}
       </div>
     </>
   );
