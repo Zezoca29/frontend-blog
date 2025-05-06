@@ -25,14 +25,6 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.text-xl {
-  color: blue;
-}
-
-p {
-  color: black;
-}
-
 .svg-inline--fa {
   height: auto !important;
   /* Sobrescreve o height padrão */
@@ -73,4 +65,12 @@ p {
   p{
     font-size: .9rem;
   }
+}
+
+svg.lucide.lucide-quote {
+  margin-bottom: -1rem;
+}
+
+.px-3 {
+  font-size: small;
 }

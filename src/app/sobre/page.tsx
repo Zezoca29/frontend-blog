@@ -4,6 +4,16 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Instagram, Linkedin, MessageCircle } from 'lucide-react';
 
+const timelineData = [
+  { year: "2014", title: "Ensino Superior - Pedagogia" },
+  { year: "2018", title: "Pós-Graduação em Educação Especial", desc: "Ênfase em Deficiência Intelectual" },
+  { year: "2021", title: "Pós-Graduação em Psicopedagogia", desc: "Ênfase em Deficiência Intelectual" },
+  { year: "2022", title: "Pós-Graduação em Psicomotricidade" },
+  { year: "2023", title: "Pós-Graduação em Neuropsicopedagogia" },
+  { year: "2024", title: "Pós-Graduação em Análise do Comportamento (ABA)" },
+  { year: "2025", title: "Pós-Graduação em Neurociências e Educação", desc: "Cursando – término em setembro de 2025" },
+];
+
 const SobreMim = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -50,7 +60,7 @@ const SobreMim = () => {
           :root {
             --primary: #3e6fc6;
             --secondary: #7fd13f;
-            --accent: #FFB6C1;
+            --accent:rgb(255, 0, 0);
             --light: #f8f9fa;
             --dark: #343a40;
             --text: #333333;
@@ -153,7 +163,7 @@ const SobreMim = () => {
             color: var(--secondary);
           }
           .page-title {
-            background-color: var(--primary);
+            background-color: #f72ec8;
             color: white;
             padding: 4rem 0;
             text-align: center;
@@ -186,7 +196,7 @@ const SobreMim = () => {
           .bio-content {
             opacity: 0;
             transform: translateY(20px);
-            transition: all 0.8s ease;
+            transition: all 0.5s ease;
           }
           .bio-content.visible {
             opacity: 1;
@@ -194,14 +204,19 @@ const SobreMim = () => {
           }
           .bio-title {
             font-size: 2rem;
-            color: var(--primary);
+            color:rgb(246, 0, 135);
             margin-bottom: 1.5rem;
             font-family: 'Georgia', serif;
           }
           .bio-text {
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
+            color:rgb(238, 0, 178);
           }
+          .section-title{
+            font-size: 2.5rem;
+            color: #ffffff;
+            }
           .animation-container {
             position: relative;
             height: 400px;
@@ -298,7 +313,7 @@ const SobreMim = () => {
             position: absolute;
             width: 80px;
             height: 100px;
-            background-color: white;
+            background-color: #f72ec8;
             border-radius: 5px;
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
@@ -495,7 +510,7 @@ const SobreMim = () => {
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
           }
           .footer {
-            background-color: var(--dark);
+            background-color: #0006ff;
             color: white;
             padding: 3rem 0;
           }
@@ -611,11 +626,12 @@ const SobreMim = () => {
             <img src="/blog/Logo_LR_negativo.svg" alt="Logo" />
             <span className="logo-text">Blog Psicopedagógico</span>
             </div>
-            <div className="nav-links">
+            <nav className="nav-links">
             <Link href="/" className="nav-link">Home</Link>
             <Link href="/blog" className="nav-link">Blog</Link>
-            <Link href="/contato" className="nav-link">Contato</Link>
-            </div>
+            <Link href="/sobre" className="nav-link">Sobre Mim</Link>
+            <Link href="/login" className="nav-link">Login</Link>
+          </nav>
             <button className="hamburger" onClick={toggleMenu}>
               <span></span>
               <span></span>
@@ -736,60 +752,20 @@ const SobreMim = () => {
     
     <div className="journey-timeline">
       <div className="timeline-line"></div>
-      
-      <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '0.2s' }}>
-        <div className="timeline-dot"></div>
-        <div className="timeline-date">2005</div>
-        <div className="timeline-content">
-          <h3 className="timeline-title">Graduação em Pedagogia</h3>
-          <p>Formação inicial com ênfase em educação inclusiva e processos de desenvolvimento infantil.</p>
-        </div>
-      </div>
-              
-              <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '0.4s' }}>
-                <div className="timeline-dot"></div>
-                <div className="timeline-date">2007</div>
-                <div className="timeline-content">
-                  <h3 className="timeline-title">Especialização em Psicopedagogia</h3>
-                  <p>Aprofundamento nos estudos sobre processos de aprendizagem e suas dificuldades.</p>
-                </div>
-              </div>
-              
-              <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '0.6s' }}>
-                <div className="timeline-dot"></div>
-                <div className="timeline-date">2010</div>
-                <div className="timeline-content">
-                  <h3 className="timeline-title">Mestrado em Educação Especial</h3>
-                  <p>Pesquisa sobre intervenções precoces em crianças com dificuldades de aprendizagem.</p>
-                </div>
-              </div>
-              
-              <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '0.8s' }}>
-                <div className="timeline-dot"></div>
-                <div className="timeline-date">2013</div>
-                <div className="timeline-content">
-                  <h3 className="timeline-title">Fundação do Espaço Pedagógico LR</h3>
-                  <p>Criação do meu próprio espaço para atendimento psicopedagógico personalizado.</p>
-                </div>
-              </div>
-              
-              <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '1s' }}>
-                <div className="timeline-dot"></div>
-                <div className="timeline-date">2018</div>
-                <div className="timeline-content">
-                  <h3 className="timeline-title">Lançamento do Blog Psicopedagógico</h3>
-                  <p>Criação de um espaço digital para compartilhar conhecimentos e apoiar famílias e educadores.</p>
-                </div>
-              </div>
-              
-              <div className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`} style={{ transitionDelay: '1.2s' }}>
-                <div className="timeline-dot"></div>
-                <div className="timeline-date">2023</div>
-                <div className="timeline-content">
-                  <h3 className="timeline-title">Biblioteca de Materiais Psicopedagógicos</h3>
-                  <p>Desenvolvimento de uma biblioteca de recursos e atividades para uso de profissionais e famílias.</p>
-                </div>
-              </div>
+          {timelineData.map((item, index) => (
+          <div
+            key={item.year + item.title}
+            className={`timeline-item ${isVisible && activeSection === 2 ? 'visible' : ''}`}
+            style={{ transitionDelay: `${0.2 * (index + 1)}s` }}
+          >
+            <div className="timeline-dot"></div>
+            <div className="timeline-date">{item.year}</div>
+            <div className="timeline-content">
+              <h3 className="timeline-title">{item.title}</h3>
+              {item.desc && <p>{item.desc}</p>}
+            </div>
+          </div>
+        ))}
             </div>
           </div>
         </section>

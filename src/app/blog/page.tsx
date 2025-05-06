@@ -288,6 +288,9 @@ export default function BlogPage() {
     <>
       {/* Estilos para o header e componentes */}
       <style jsx global>{`
+        .text-xl {
+            color: blue;
+        }
         .header {
           background-color: #3e6fc6;
           padding: 1rem 0;
@@ -797,8 +800,8 @@ export default function BlogPage() {
                     <div className="flex">
                       <input 
                         type="email" 
-                        placeholder="Seu melhor email" 
-                        className="px-4 py-3 rounded-l-lg w-full border-y border-l focus:outline-none focus:ring-1 focus:ring-[#3e6fc6]"
+                        placeholder="Digite seu e-mail" 
+                        className="px-3 py-3 rounded-l-lg w-full border-y border-l focus:outline-none focus:ring-1 focus:ring-[#3e6fc6]"
                       />
                       <button className="bg-[#3e6fc6] hover:bg-[#325aa8] text-white px-4 py-2 rounded-r-lg transition">
                         Inscrever

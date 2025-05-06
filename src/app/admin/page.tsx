@@ -226,7 +226,7 @@ export default function AdminPage() {
       {/* Sidebar */}
       <div className={`bg-indigo-900 text-white ${sidebarOpen ? 'w-64' : 'w-16'} transition-all duration-300 fixed h-full z-20 shadow-lg`}>
         <div className="p-4 flex items-center justify-between">
-          {sidebarOpen && <h1 className="text-xl font-bold">Painel Admin</h1>}
+          {sidebarOpen && <h1 className="text-xl font-bold text-white">Painel Admin</h1>}
           <button 
             onClick={() => setSidebarOpen(!sidebarOpen)} 
             className="p-2 rounded-full hover:bg-indigo-800 transition-all"
@@ -302,7 +302,7 @@ export default function AdminPage() {
                 className="bg-white rounded-lg shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden"
               >
                 <div className="sticky top-0 bg-gradient-to-r from-indigo-700 to-purple-600 text-white px-6 py-4 flex justify-between items-center">
-                  <h2 className="text-xl font-bold">{editingPostId ? "Editar Post" : "Criar Novo Post"}</h2>
+                  <h2 className="text-xl font-bold text-white">{editingPostId ? "Editar Post" : "Criar Novo Post"}</h2>
                   <button 
                     type="button" 
                     onClick={() => setIsEditing(false)}

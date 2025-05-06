@@ -23,7 +23,7 @@ const Page = () => {
             --secondary: #7fd13f;
             --accent: #FFB6C1;
             --light: #f8f9fa;
-            --dark: #343a40;
+            --dark: #3e6fc6;
             --text: #333333;
           }
           body {
@@ -124,7 +124,7 @@ const Page = () => {
             color: var(--secondary);
           }
           .hero {
-            background-image: linear-gradient(rgba(62, 111, 198, 0.7), rgba(62, 111, 198, 0.7)), url('/api/placeholder/1200/500');
+            background-image: linear-gradient(rgb(91, 238, 0), rgb(98, 242, 9)), url('/api/placeholder/1200/500');
             background-size: cover;
             background-position: center;
             color: white;
@@ -157,7 +157,7 @@ const Page = () => {
             color: white;
           }
           .btn-primary:hover {
-            background-color: #6dbc30;
+            background-color:rgb(246, 255, 0);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
           }
@@ -250,6 +250,9 @@ const Page = () => {
             font-size: 2rem;
             margin-bottom: 1rem;
             font-family: 'Georgia', serif;
+          }
+            .text-xl {
+              color: white;
           }
           .testimonials {
             background-color: var(--light);
