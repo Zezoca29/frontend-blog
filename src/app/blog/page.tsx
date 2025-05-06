@@ -268,7 +268,7 @@ export default function BlogPage() {
   if (error && currentPage === 1)
     return (
       <div className="flex justify-center items-center min-h-screen bg-gray-50">
-        <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
+        <div className="text-center p-8 bg-blue rounded-lg shadow-md max-w-md">
           <div className="w-16 h-16 bg-red-100 text-red-500 rounded-full flex items-center justify-center mx-auto mb-4">
             <X size={32} />
           </div>
@@ -276,7 +276,7 @@ export default function BlogPage() {
           <p className="text-gray-600 mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="bg-[#3e6fc6] hover:bg-[#325aa8] text-white px-4 py-2 rounded-lg transition"
+            className="bg-[#3e6fc6] hover:bg-[#325aa8] text-blue px-4 py-2 rounded-lg transition"
           >
             Tentar novamente
           </button>
@@ -288,9 +288,6 @@ export default function BlogPage() {
     <>
       {/* Estilos para o header e componentes */}
       <style jsx global>{`
-        .text-xl {
-            color: blue;
-        }
         .header {
           background-color: #3e6fc6;
           padding: 1rem 0;
@@ -558,6 +555,7 @@ export default function BlogPage() {
             transform: translateY(0);
           }
         }
+
       `}</style>
 
       <Head>

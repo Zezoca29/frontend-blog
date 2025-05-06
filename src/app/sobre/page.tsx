@@ -215,7 +215,7 @@ const SobreMim = () => {
           }
           .section-title{
             font-size: 2.5rem;
-            color: #ffffff;
+            color:rgb(62, 0, 232);
             }
           .animation-container {
             position: relative;
